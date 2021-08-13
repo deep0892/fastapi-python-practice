@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from typing import Optional
+from pydantic import BaseModel
 
 app = FastAPI()
 
@@ -45,6 +46,12 @@ def about():
     return {'data': 'about page'}
 
 
+class Blog(BaseModel):
+    title: str
+    body: str
+    published: Optional[bool]
+
+
 @app.post('/blog')
-def create_blog():
-    return {'data': 'Blog is created.'}
+def create_blog(blog: Blog):
+    return {'data': f'Blog is created with title {blog.title}'}
